@@ -5,10 +5,14 @@ from flask import Flask
 
 app = Flask(__name__)
 
+BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
+RESOURCE_PATH = os.path.join(BASE_FOLDER, "resources")
+
 
 @app.route("/")
 def hello_world():
-    return "hello world. new is "
+    with open(os.path.join(RESOURCE_PATH, "response.json")) as f:
+        return "%s - %s" % (json.loads(f.read()).get("message"), datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S"))
 
 
 if __name__ == "__main__":
